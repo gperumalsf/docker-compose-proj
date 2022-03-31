@@ -6,6 +6,6 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-EXPOSE 8001 8002 5432
+EXPOSE 8001
 
 CMD python -m app
