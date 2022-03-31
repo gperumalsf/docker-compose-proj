@@ -1,0 +1,33 @@
+version: '3'
+services:
+  nginx:
+   container_name: webserver-nginx
+   image: nginx:1.13
+   ports:
+     - 80:80
+   volumes:
+    - ./nginx/conf.d:/etc/nginx/conf.d
+   depends_on:
+    - web-server-app
+   networks:
+    - web-server_network
+
+  web-server-app:
+    container_name: web-server-container
+    build: ../web-server
+    working_dir: /web-server
+    volumes:
+      - dbvol:/web-server
+    expose:
+      - 8080
+    networks:
+    - web-server_network
+  
+volumes:
+  dbvol:
+    driver: local
+    
+networks:
+  web-server_network:
+    driver: bridge
+  
