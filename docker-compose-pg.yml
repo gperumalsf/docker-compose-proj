@@ -13,6 +13,17 @@ services:
     networks:
       - docproj-network
 
+  log_server:
+  build: ./log_server
+  container_name: log_server
+  ports:
+    - 8001:8001
+    - 8002:8002
+  networks:
+    - log-network
+  depends_on:
+    - logserverdb
+
   logserverdb:
     image: postgres:14.1-alpine
     restart: always
