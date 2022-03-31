@@ -4,8 +4,8 @@ import pg8000.native as pg
 
 """Database variables"""
 DB_NAME = "docker"
-DB_HOST = "logserverdb"  # Name of docker db service
-DB_PORT = 5432
+DB_HOST = "logdb"  # Name of docker log db service
+DB_PORT = 5432  # Port number exposed by docker log db service
 USERNAME = "docker"
 PASSWORD = "password"
 
@@ -25,6 +25,7 @@ def init_connection():
             break
         except Exception as e:
             print(f"Connection attempt {n}. Retrying..", flush=True)
+            print(e)
             n += 1
     
     if not conn:
