@@ -10,24 +10,43 @@ services:
    depends_on:
     - web-server-app
    networks:
-    - web-server_network
+    - docproj-network #web-server_network
 
   web-server-app:
     container_name: web-server-container
-    build: ../web-server
+    build: ../docker-compose-proj #//web-server
     working_dir: /web-server
     volumes:
       - dbvol:/web-server
     expose:
       - 8080
     networks:
-    - web-server_network
-  
+    - docproj-network #web-server_network
+  recorddb:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - volrecdb:/var/lib/postgresql/data
+#      - ./db/record-init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    networks:
+      - docproj-network
+
 volumes:
   dbvol:
     driver: local
-    
+  volrecdb:
+    driver: local
+
 networks:
-  web-server_network:
+  docproj-network:
     driver: bridge
+    
+#networks:
+#  web-server_network:
+#    driver: bridge
   

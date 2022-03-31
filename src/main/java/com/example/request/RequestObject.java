@@ -2,7 +2,6 @@ package com.example.request;
 
 import org.springframework.stereotype.Component;
 
-@Component
 public class RequestObject {
 	
     private String studentName;
