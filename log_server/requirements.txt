@@ -1,0 +1,4 @@
+asyncio
+websockets
+jsonschema
+pg8000
