@@ -21,7 +21,9 @@ services:
     expose:
       - 8080
     networks:
-    - docproj-network #web-server_network
+      - docproj-network #web-server_network
+    depends_on:
+      - recorddb
   recorddb:
     image: postgres:14.1-alpine
     restart: always
