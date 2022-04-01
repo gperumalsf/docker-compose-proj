@@ -71,6 +71,8 @@ services:
       - docproj-network
 
 volumes:
+  dbvol:
+    driver: local
   volrecdb:
     driver: local
   vollogdb:
