@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,8 @@ public class controller {
 //	private StudentService studentService;
 	StudentService studentService = new StudentService();
 
+	final static Logger logger = Logger.getLogger(controller.class);
+	
 	@GetMapping(path="/")
 	public String home() {
 		return "Welcome to the GAS Project!";
@@ -30,7 +33,7 @@ public class controller {
 		try {
 			studentService.storeStudentInfo(studentInfo);	
 		} catch (Exception e) {
-			System.out.println("Error while storing into the database: " + e.getMessage());
+			logger.error("Error while storing into the database: " + e.getMessage());
 		}
 	}
 	
@@ -40,7 +43,7 @@ public class controller {
 		try {
 			studentInfo = studentService.retrieveStudentInfo(id);
 		} catch (Exception e) {
-			System.out.println("Error while retrieving data from the database: " + e.getMessage());
+			logger.error("Error while retrieving data from the database: " + e.getMessage());
 		}
 		return studentInfo;
 	}

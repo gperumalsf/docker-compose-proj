@@ -10,11 +10,11 @@ services:
    depends_on:
     - web-server-app
    networks:
-    - docproj-network #web-server_network
+    - docproj-network
 
   web-server-app:
     container_name: web-server-container
-    build: ../docker-compose-proj
+    build: .
     working_dir: /web-server
     volumes:
       - dbvol:/web-server
@@ -27,6 +27,7 @@ services:
   recorddb:
     image: postgres:14.1-alpine
     restart: always
+    hostname: postgres
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
