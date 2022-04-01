@@ -1,31 +1,48 @@
 version: '3.8'
 services:
-  test_server:
-    build: ./test_server
-    container_name: test_server
-    volumes:
-      - "./test_server:/app"
+  # Proxy server
+  nginx:
+    container_name: webserver-nginx
+    image: nginx:1.13
     ports:
-      - 8080:8080
-    networks:
-      - docproj-network
+      - 80:80
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
     depends_on:
-      - log_server
+      - web-server-app
+    networks:
+      - docproj-network #web-server_network
 
+  # Web server
+  web-server-app:
+    container_name: web-server-container
+    build: .
+    working_dir: /web-server
+    volumes:
+      - dbvol:/web-server
+    expose:
+      - 8080
+    networks:
+      - docproj-network #web-server_network
+    depends_on:
+      - recorddb
+
+  # Web server/Record DB
   recorddb:
     image: postgres:14.1-alpine
-    container_name: web_server_container
     restart: always
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     ports:
-      - 5432:5432
+      - '5432:5432'
     volumes:
       - volrecdb:/var/lib/postgresql/data
+    #      - ./db/record-init.sql:/docker-entrypoint-initdb.d/create_tables.sql
     networks:
       - docproj-network
 
+  # Log server
   log_server:
     build: ./log_server
     container_name: log_server_container
@@ -36,6 +53,7 @@ services:
     depends_on:
       - logserverdb
 
+  # Log DB
   logserverdb:
     build: ./log_db
     restart: always
