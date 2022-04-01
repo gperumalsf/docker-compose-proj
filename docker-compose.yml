@@ -14,7 +14,7 @@ services:
 
   web-server-app:
     container_name: web-server-container
-    build: ../docker-compose-proj #//web-server
+    build: ../docker-compose-proj
     working_dir: /web-server
     volumes:
       - dbvol:/web-server
