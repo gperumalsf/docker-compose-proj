@@ -1,0 +1,6 @@
+com\example\demo\WebServerApplication.class
+com\example\request\RequestObject.class
+com\example\dao\StudentInfo.class
+com\example\demo\controller.class
+com\example\repo\StudentRepo.class
+com\example\service\StudentService.class
